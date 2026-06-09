@@ -43,18 +43,32 @@ public class Item {
     @Version
     private Long version;
 
-    protected Item() {}
+    protected Item() { }
 
     public Item(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public UUID getId() { return id; }
-    public String getName() { return name; }
-    public String getDescription() { return description; }
-    public Instant getCreatedAt() { return createdAt; }
-    public Instant getUpdatedAt() { return updatedAt; }
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
 
     public void update(String name, String description) {
         this.name = name;
