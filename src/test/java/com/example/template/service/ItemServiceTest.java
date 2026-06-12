@@ -4,6 +4,7 @@ import com.example.template.api.dto.CreateItemRequest;
 import com.example.template.api.dto.UpdateItemRequest;
 import com.example.template.domain.Item;
 import com.example.template.exception.ResourceNotFoundException;
+import com.example.template.messaging.ItemEventPublisher;
 import com.example.template.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,9 @@ class ItemServiceTest {
 
     @Mock
     ItemRepository itemRepository;
+
+    @Mock
+    ItemEventPublisher eventPublisher;
 
     @InjectMocks
     ItemService itemService;
