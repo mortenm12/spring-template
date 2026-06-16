@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItemEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(ItemEventListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ItemEventListener.class);
 
     @RabbitListener(queues = RabbitMqConfig.QUEUE)
     public void onItemEvent(ItemEvent event) {
-        log.info("Received item event: {}", event);
+        LOG.info("Received item event: {}", event);
     }
 }

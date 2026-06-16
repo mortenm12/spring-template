@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,6 +62,7 @@ class ItemServiceTest {
     void create_savesAndReturnsResponse() {
         var request = new CreateItemRequest("Widget", "A widget");
         var savedItem = new Item("Widget", "A widget");
+        ReflectionTestUtils.setField(savedItem, "id", UUID.randomUUID());
         given(itemRepository.save(any(Item.class))).willReturn(savedItem);
 
         var result = itemService.create(request);
@@ -82,6 +84,7 @@ class ItemServiceTest {
     void update_whenFound_updatesAndReturnsResponse() {
         var id = UUID.randomUUID();
         var item = new Item("Old Name", "Old desc");
+        ReflectionTestUtils.setField(item, "id", id);
         var request = new UpdateItemRequest("New Name", "New desc");
         given(itemRepository.findById(id)).willReturn(Optional.of(item));
 
