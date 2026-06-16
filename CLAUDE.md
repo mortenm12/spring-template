@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Dette er et service template.** Når templaten klones til et nyt projekt, skal denne CLAUDE.md opdateres, så den afspejler det nye projekts domæne, pakkenavn og konventioner — fjern eller erstat al template-specifik vejledning.
+
 ## Commands
 
 ```bash
@@ -69,6 +71,26 @@ RabbitMQ is configured in `RabbitMqConfig` with a single topic exchange (`items.
 | `local` | Dev — PostgreSQL on `localhost:5432`, credentials `template/template` |
 | `test` | Testcontainers — datasource URL drives container lifecycle |
 | `prod` | All config via env vars: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_JWK_SET_URI`, `RABBITMQ_HOST` |
+
+## CI / GitHub Actions
+
+Alle tre workflows skal være grønne før en PR merges:
+
+- **Build & Test** — kompilerer, kører tests med Testcontainers og bygger Docker-image
+- **Lint (Checkstyle)** — validerer kodestil; fejl blokerer merge
+- CI kører på push til `main`/`develop` og på alle PRs mod `main`
+
+Kør altid `./gradlew test` og `./gradlew checkstyleMain checkstyleTest` lokalt inden push.
+
+## SOLID-principper
+
+Følg SOLID konsekvent i al ny kode:
+
+- **Single Responsibility** — hver klasse har ét ansvarsområde. Controllers håndterer HTTP, services håndterer forretningslogik, repositories håndterer persistens. Bland ikke lagene.
+- **Open/Closed** — udvid adfærd via nye klasser eller strategier frem for at modificere eksisterende. Brug f.eks. nye `@ExceptionHandler`-metoder i `GlobalExceptionHandler` frem for at rode i eksisterende handlers.
+- **Liskov Substitution** — subtyper skal kunne træde i stedet for deres basistype uden at ændre programmets korrekthed.
+- **Interface Segregation** — foretrækk smalle, fokuserede interfaces frem for brede. Spring Data-repositories er et godt eksempel; definér kun de query-metoder der faktisk bruges.
+- **Dependency Inversion** — afhæng af abstraktioner (interfaces), ikke konkrete implementeringer. Injicer afhængigheder via konstruktør (som eksisterende kode gør) — undgå field injection og `@Autowired`.
 
 ## Adapting the template
 
