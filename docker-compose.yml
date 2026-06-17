@@ -16,6 +16,17 @@ services:
       timeout: 5s
       retries: 5
 
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   app:
     build: .
     ports:
@@ -26,8 +37,11 @@ services:
       DB_USERNAME: template
       DB_PASSWORD: template
       JWT_JWK_SET_URI: http://auth:9000/oauth2/jwks
+      RABBITMQ_HOST: rabbitmq
     depends_on:
       db:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 
   prometheus:
